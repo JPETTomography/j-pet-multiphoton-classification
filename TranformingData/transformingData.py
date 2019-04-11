@@ -74,7 +74,7 @@ def featureEngineering(row):
         deg3D,  # Angle beetwen lines (in XYZ geometry) connecting detection points with the center of detector
         deg2D,  # Angle beetwen lines (in XY geometry) connecting detection points with the center of detector
         rL,     # Distance beetween reconstructed point and the center of detector
-        eSum    # Sum of the detecions energies
+        eSum    # Sum of the detecion energies
     )
 
 data = pd.read_csv(pathToData + fileName + "REPAIRED_part" + part, sep = "\t", names=dataFrameNames())
