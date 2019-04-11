@@ -2,7 +2,6 @@
 
 import pandas as pd
 import numpy as np
-import random as rnd
 import sys
 import math
 import random
