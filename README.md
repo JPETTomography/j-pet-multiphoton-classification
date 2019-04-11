@@ -4,7 +4,7 @@ Data transformation and classificiation methods for J-PET tomography.
 ## Repairing data
 **Requirements**: python3.6 and the required packages  
 **Input format**: CSV  
-**Input columns**: Discribed in the function *dataFrameNames()* at */RepairingData/repairingData.py* script  
+**Input columns**: Described in the function *dataFrameNames()* at */RepairingData/repairingData.py* script  
 **Output format**: CSV  
 **Output columns**: same as above  
 **Purpose**: Repairing wrong class labels and shuffle the order of particles.  
@@ -13,6 +13,7 @@ Data transformation and classificiation methods for J-PET tomography.
 You can change it inside the script.  
 
 ## Transforming data
+**Requirements**: python3.6 and the required packages  
 **Input format**: CSV  
 **Input columns**: Discribed in the function *dataFrameNames()* at */TransformingData/transformingData.py* script  
 **Output format**: binary file  
