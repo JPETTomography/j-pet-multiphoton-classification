@@ -37,7 +37,7 @@ def dataFrameNames():
         "eSum"    # Sum of the detecions energies
     ]
 
-pathToFile = '/mnt/home/jbielecki1/NEMA/NEMA_IQ_384str_N0_1000_COINCIDENCES_PREPARED_part00'
+pathToFile = 'NEMA_IQ_384str_N0_1000_COINCIDENCES_PREPARED_part00'
 
 if sys.argv[1]:
     pathToFile = sys.argv[1]
