@@ -10,25 +10,38 @@ pathToData = sys.argv[1] # '/mnt/home/jbielecki1/NEMA/'
 part = sys.argv[2] # parts ffrom "00" to "18"
 fileName = 'NEMA_IQ_384str_N0_1000_COINCIDENCES_'
 
-def dataFrameNames():
-    return [
-        "x1", # 1 gamma detected x position [cm]
-        "y1", # 1 gamma detected y position [cm]
-        "z1", # 1 gamma detected z position [cm]
-        "t1", # 1 gamma detection time [ps]
-        "x2", # 2 gamma detected x position [cm]
-        "y2", # 2 gamma detected y position [cm]
-        "z2", # 2 gamma detected z position [cm]
-        "t2", # 2 gamma detection time [ps]
-        "vol1", # 1 gamma volume ID
-        "vol2", # 2 gamma volume ID
-        "e1", # 1 gamma energy loss during detection [keV]
-        "e2", # 2 gamma energy loss during detection [keV]
-        "class", # Type of coincidence(1-true, 2-phantom-scattered, 3-detector-scattered, 4-accidental)
-        "sX1", # 1 gamma emission x position [cm]
-        "sY1", # 1 gamma emission y position [cm]
-        "sZ1" # 1 gamma emission z position [cm]
-    ]
+originalAttributes = [
+    "x1",    # 1 gamma detected x position [cm]
+    "y1",    # 1 gamma detected y position [cm]
+    "z1",    # 1 gamma detected z position [cm]
+    "t1",    # 1 gamma detection time [ps]
+    "x2",    # 2 gamma detected x position [cm]
+    "y2",    # 2 gamma detected y position [cm]
+    "z2",    # 2 gamma detected z position [cm]
+    "t2",    # 2 gamma detection time [ps]
+    "vol1",  # 1 gamma volume ID
+    "vol2",  # 2 gamma volume ID
+    "e1",    # 1 gamma energy loss during detection [keV]
+    "e2",    # 2 gamma energy loss during detection [keV]
+    "class", # Type of coincidence(1-true, 2-phantom-scattered, 3-detector-scattered, 4-accidental)
+    "sX1",   # 1 gamma emission x position [cm]
+    "sY1",   # 1 gamma emission y position [cm]
+    "sZ1"    # 1 gamma emission z position [cm]
+]
+
+newAttributes = [
+    "dt",     # Detection times difference
+    "rX1",    # Reconstruction point - X cord
+    "rY1",    # Reconstruction point - Y cord
+    "rZ1",    # Reconstruction point - Z cord
+    "rError", # Difference beetwen source point and recontructed point
+    "volD",   # Volumes indexes difference
+    "lorL",   # LOR length
+    "deg3D",  # Angle beetwen lines (in XYZ geometry) connecting detection points with the center of detector
+    "deg2D",  # Angle beetwen lines (in XY geometry) connecting detection points with the center of detector
+    "rL",     # Distance beetween reconstructed point and the center of detector
+    "eSum"    # Sum of the detecions energies
+]
 
 def featureEngineering(row):
     sOfL = 0.03 # cm/ps
@@ -63,20 +76,12 @@ def featureEngineering(row):
     rL = math.sqrt(rX1**2 + rY1**2 + rZ1**2)
     eSum = row['e1'] + row['e2']
     
-    return (
-        dt,     # Detection times difference
-        rX1,    # Reconstruction point - X cord
-        rY1,    # Reconstruction point - Y cord
-        rZ1,    # Reconstruction point - Z cord
-        rError, # Difference beetwen source point and recontructed point
-        volD,   # Volumes indexes difference
-        lorL,   # LOR length
-        deg3D,  # Angle beetwen lines (in XYZ geometry) connecting detection points with the center of detector
-        deg2D,  # Angle beetwen lines (in XY geometry) connecting detection points with the center of detector
-        rL,     # Distance beetween reconstructed point and the center of detector
-        eSum    # Sum of the detecion energies
-    )
+    return (dt, rX1, rY1, rZ1, rError, volD, lorL, deg3D, deg2D, rL, eSum)
 
-data = pd.read_csv(pathToData + fileName + "REPAIRED_part" + part, sep = "\t", names=dataFrameNames())
-data[['dt','rX1','rY1','rZ1','rError','volD','lorL','deg3D','deg2D','rL','eSum']] = data.apply(lambda row: pd.Series(featureEngineering(row)), axis=1)
+data = pd.read_csv(
+    pathToData + fileName + "REPAIRED_part" + part, 
+    sep = "\t", 
+    names = originalAttributes()
+)
+data[newAttributes] = data.apply(lambda row: pd.Series(featureEngineering(row)), axis=1)
 pickle.dump(data, open(pathToData + fileName + 'PREPARED_part' + part, 'wb'))

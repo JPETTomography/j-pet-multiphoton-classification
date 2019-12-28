@@ -18,8 +18,8 @@ You can change it inside the script.
 **Input columns**: Discribed in the function *dataFrameNames()* at */TransformingData/transformingData.py* script  
 **Output format**: binary file  
 **Output columns**: same as above + result of the function *featureEngineering()* at */TransformingData/transformingData.py* script    
-**Purpose**: Feature engineering and saving as binary file  
+**Purpose**: Feature engineering - add extra features (listed in the variable *newAttributes* in /TransformingData/transformingData.py script) to the original ones (listed in the variable *originalAttributes* in /TransformingData/transformingData.py script). After the transformation new data (in pandas DataFrame format) is saved as binary file (serialization made using the *Pickle* package).  
 **Usage**: ./TransformingData/transformingData.py 'path_to_data' 'data_part'  
-**PS**: Filename set as 'NEMA_IQ_384str_N0_1000_COINCIDENCES_' with the infixion 'REPAIRED_' while loading the data (see the scirpt */TransformingData/transformingData.py*).
+**PS**: Filename set as 'NEMA_IQ_384str_N0_1000_COINCIDENCES_' with the infixion 'REAIRED_' while loading the data (see the scirpt */TransformingData/transformingData.py*).
 You can change it inside the script.  
-
+**Output usage example**: ./TransformingData/transformingDataExample.py 'path_to_the_transformed_file'  
