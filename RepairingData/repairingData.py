@@ -1,15 +1,10 @@
 #!/usr/bin/env python3.6
 
-import pandas as pd
-import numpy as np
 import sys
 import math
 import random
+import pandas as pd
 
-pathToDataLoad = '/mnt/opt/groups/jpet/NEMA_Image_Quality/3000s/'
-pathToDataSave = sys.argv[1]
-fileName = 'NEMA_IQ_384str_N0_1000_COINCIDENCES_'
-part = sys.argv[2]
 
 def dataFrameNames():
     return [
@@ -81,19 +76,30 @@ def shuffleTheOrder(row):
         
     return rowCopy
 
-print("Processing file " + fileName + 'REPAIRED_' + "part" + part)
-data = pd.read_csv(
-    pathToDataLoad + fileName + "part" + part, 
-    sep = "\t", 
-    names=dataFrameNames()
-)
-data['dt'] = data.apply (lambda row: row['t1'] - row['t2'], axis=1)
-data[['RX1','RY1','RZ1']] = data.apply(lambda row: pd.Series(emissionPoint(row)), axis=1)
-data['emissionDistance'] = data.apply(lambda row:distance(row), axis=1)
-data['class'] = data.apply(lambda row:reClass(row), axis = 1)
-data = data.apply(lambda row:shuffleTheOrder(row), axis = 1)
-data = data.drop(['dt', 'RX1', 'RY1','RZ1', 'emissionDistance'], axis = 1)
-data.to_csv(
-    pathToDataSave + fileName + 'REPAIRED_' + "part" + part, 
-    header=False, index=False, sep='\t'
-)
+
+def main(argv):
+    pathToDataLoad = '/mnt/opt/groups/jpet/NEMA_Image_Quality/3000s/'
+    # pathToDataLoad = '/home/krzemien/workdir/pet/classification/data/'
+    pathToDataSave = sys.argv[1]
+    fileName = 'NEMA_IQ_384str_N0_1000_COINCIDENCES_'
+    part = sys.argv[2]
+
+    print("Processing file " + fileName + 'REPAIRED_' + "part" + part)
+    data = pd.read_csv(
+        pathToDataLoad + fileName + "part" + part, 
+        sep = "\t", 
+        names=dataFrameNames()
+    )
+    data['dt'] = data.apply (lambda row: row['t1'] - row['t2'], axis=1)
+    data[['RX1','RY1','RZ1']] = data.apply(lambda row: pd.Series(emissionPoint(row)), axis=1)
+    data['emissionDistance'] = data.apply(lambda row:distance(row), axis=1)
+    data['class'] = data.apply(lambda row:reClass(row), axis = 1)
+    data = data.apply(lambda row:shuffleTheOrder(row), axis = 1)
+    data = data.drop(['dt', 'RX1', 'RY1','RZ1', 'emissionDistance'], axis = 1)
+    data.to_csv(
+        pathToDataSave + fileName + 'REPAIRED_' + "part" + part, 
+        header=False, index=False, sep='\t'
+    )
+
+if __name__ == "__main__":
+    main(sys.argv)
