@@ -80,9 +80,9 @@ def shuffleTheOrder(row):
 def main(argv):
     pathToDataLoad = '/mnt/opt/groups/jpet/NEMA_Image_Quality/3000s/'
     # pathToDataLoad = '/home/krzemien/workdir/pet/classification/data/'
-    pathToDataSave = sys.argv[1]
+    pathToDataSave = argv[1]
     fileName = 'NEMA_IQ_384str_N0_1000_COINCIDENCES_'
-    part = sys.argv[2]
+    part = argv[2]
 
     print("Processing file " + fileName + 'REPAIRED_' + "part" + part)
     data = pd.read_csv(
